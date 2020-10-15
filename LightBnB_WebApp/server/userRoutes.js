@@ -1,4 +1,5 @@
 const bcrypt = require('bcrypt');
+const { getUserWithEmail } = require('./database');
 
 module.exports = function(router, database) {
 
@@ -24,8 +25,11 @@ module.exports = function(router, database) {
    * @param {String} password encrypted
    */
   const login =  function(email, password) {
+    
     return database.getUserWithEmail(email)
+   
     .then(user => {
+      console.log('This is the user', user);
       if (bcrypt.compareSync(password, user.password)) {
         return user;
       }
